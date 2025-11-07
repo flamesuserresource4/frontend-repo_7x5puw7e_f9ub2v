@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Spline from '@splinetool/react-spline';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Rocket, Play, X } from 'lucide-react';
 
 const Modal = ({ open, onClose, children }) => {
@@ -60,6 +60,11 @@ export default function HeroUniverse() {
     return () => el.removeEventListener('mousemove', handler);
   }, []);
 
+  // Scroll-based parallax for the title group
+  const { scrollY } = useScroll();
+  const yParallax = useTransform(scrollY, [0, 400], [0, -50]);
+  const opacityParallax = useTransform(scrollY, [0, 400], [1, 0.7]);
+
   return (
     <section className="relative h-[100svh] w-full overflow-hidden bg-black text-white">
       {/* 3D Spline Background */}
@@ -76,6 +81,7 @@ export default function HeroUniverse() {
       {/* Content */}
       <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6">
         <motion.div
+          style={{ y: yParallax, opacity: opacityParallax }}
           ref={heroRef}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

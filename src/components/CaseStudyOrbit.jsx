@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import ScrollFadeIn from './ScrollFadeIn';
+import { ParallaxItem } from './Parallax';
 
 const cases = [
   {
@@ -22,37 +24,44 @@ const cases = [
 export default function CaseStudyOrbit() {
   return (
     <section id="cases" className="relative w-full bg-black py-24 text-white">
+      <ParallaxItem speed={0.18} className="pointer-events-none absolute -top-12 left-1/3 h-48 w-48 rounded-full bg-cyan-400/10 blur-3xl" />
+      <ParallaxItem speed={0.08} className="pointer-events-none absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-purple-500/10 blur-3xl" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_15%_20%,rgba(59,130,246,0.12),transparent_40%),radial-gradient(circle_at_85%_30%,rgba(236,72,153,0.1),transparent_45%)]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <h3 className="font-[Space Grotesk] text-3xl md:text-4xl">Case Study Orbit</h3>
-        <p className="mt-2 max-w-2xl text-white/80">
-          Scroll horizontally to explore orbits. Click a card to pause its orbit.
-        </p>
+        <ScrollFadeIn>
+          <h3 className="font-[Space Grotesk] text-3xl md:text-4xl">Case Study Orbit</h3>
+        </ScrollFadeIn>
+        <ScrollFadeIn delay={0.08}>
+          <p className="mt-2 max-w-2xl text-white/80">
+            Scroll horizontally to explore orbits. Click a card to pause its orbit.
+          </p>
+        </ScrollFadeIn>
 
         <div className="mt-8 overflow-x-auto pb-2">
           <div className="flex min-w-[900px] gap-6">
             {cases.map((c, idx) => (
-              <motion.div
-                key={c.title}
-                whileHover={{ y: -6 }}
-                className="group relative w-[300px] overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <video className="h-full w-full object-cover" autoPlay loop muted playsInline src={c.video} />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                </div>
-                <div className="p-4">
-                  <div className="font-[Space Grotesk] text-xl text-cyan-300">{c.title}</div>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {c.stats.map((s) => (
-                      <span key={s} className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-xs text-white/80">
-                        {s}
-                      </span>
-                    ))}
+              <ScrollFadeIn key={c.title} delay={0.05 * idx}>
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  className="group relative w-[300px] overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur"
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-hidden">
+                    <video className="h-full w-full object-cover" autoPlay loop muted playsInline src={c.video} />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   </div>
-                </div>
-              </motion.div>
+                  <div className="p-4">
+                    <div className="font-[Space Grotesk] text-xl text-cyan-300">{c.title}</div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {c.stats.map((s) => (
+                        <span key={s} className="rounded-full border border-white/10 bg-white/10 px-2 py-1 text-xs text-white/80">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              </ScrollFadeIn>
             ))}
           </div>
         </div>
